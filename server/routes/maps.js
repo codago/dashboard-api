@@ -102,7 +102,7 @@ router.put('/:id', function(req, res) {
 router.post('/search', function(req, res) {
   let filterQuery = {}
   if(req.body.title) {
-    filterQuery['title'] = req.body.title
+    filterQuery['title'] = {'$regex': req.body.title, '$options': 'i'}
   }
 
   if(req.body.lat) {

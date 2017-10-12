@@ -8,8 +8,10 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var session = require('express-session');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+require('./helpers/passport')(passport);
+
+var index = require('./routes/index')(passport);
+// var users = require('./routes/users');
 
 var app = express();
 
@@ -25,8 +27,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret: 'bimobramantyo',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.use('/', index);
-app.use('/users', users);
+// app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

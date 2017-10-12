@@ -105,7 +105,8 @@ router.post('/search', function(req, res) {
   }
 
   if(req.body.frequency) {
-    filterQuery['frequency'] = parseFloat(req.body.frequency)
+    filterQuery['frequency'] = req.body.frequency
+    filterQuery['$where'] =  `/^${req.body.frequency}.*/.test(this.frequency)`
   }
 
   Datadate.find(filterQuery, function(err,data) {

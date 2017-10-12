@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+  <script src="/javascripts/jquery-2.x-git.min.js"></script>
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Content Management System</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/home">Home<span class="sr-only">(current)</span></a></li>
+          <li><a href="/data">Data</a></li>
+          <li><a href="/datadate">Data Date</a></li>
+          <li><a href="/maps">Maps</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/logout">Log Out</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div id="control-form-div" class="container" hidden>
+    <div class="jumbotron">
+      <form id="control-form" class="form-inline" method="post">
+        <div class="form-group">
+          <label for="">Letter:</label>
+          <input id="letter-add" type="text" class="form-control" name="letter" value="">
+        </div>
+        <div class="form-group">
+          <label for="">Frequency:</label>
+          <input id="frequency-add" type="number" class="form-control" name="frequency" value="">
+        </div>
+        <button type="submit" class="btn btn-primary" href="#">Save</button>
+        <a class="btn btn-warning" href="#">Cancel</a>
+      </form>
+    </div>
+  </div>
+
+  <div class="container ">
+    <div class="">
+      <div id="add-button">
+        <button class="btn btn-primary" type="button" name="button">Add</button>
+      </div>
+
+      <h1>Search</h1>
+      <hr/>
+
+          <form id="search-form" class="form-inline" method="post">
+            <div class="form-group">
+              <label for="">Letter:</label>
+              <input id="letter-add" type="text" class="form-control" name="letter" value="">
+            </div>
+            <div class="form-group">
+              <label for="">Frequency:</label>
+              <input id="frequency-add" type="number" class="form-control" name="frequency" value="">
+            </div>
+            <button type="submit" class="btn btn-primary" href="#">Search</button>
+          </form>
+
+
+      <div class="">
+        <table id="data-table" class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Letter</th>
+              <th>Frequency</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="text/javascript">
+  var idedit = ""
+  var searching = true
+  $(document).ready(function(){
+    drawTable();
+    remove();
+    edit();
+    save();
+    cancel();
+    add();
+    search();
+  });
+
+  function drawTable(searchData) {
+    if(!searchData) {
+      $.get('http://localhost:3001/api/data', function(data){
+        let html = '';
+        for(let i=0; i<data.length; i++) {
+          html += "<tr>"
+          html += "<td>" + (i + 1) + "</td>"
+          html += "<td>" + data[i].letter + "</td>"
+          html += "<td>" + data[i].frequency + "</td>"
+          html += "<td><button class='btn btn-success btn-edit' type='button' data-id='" + data[i]._id + "'>Edit</button> &nbsp"
+          html += "<button class='btn btn-danger btn-delete' type='button' data-id='" + data[i]._id + "'>Delete</button></td>"
+          html += "</tr>"
+        }
+        $("#data-table tbody").html(html);
+      });
+    } else {
+      let html = '';
+      for(let i=0; i<searchData.length; i++) {
+        html += "<tr>"
+        html += "<td>" + (i + 1) + "</td>"
+        html += "<td>" + searchData[i].letter + "</td>"
+        html += "<td>" + searchData[i].frequency + "</td>"
+        html += "<td><button class='btn btn-success btn-edit' type='button' data-id='" + searchData[i]._id + "'>Edit</button> &nbsp"
+        html += "<button class='btn btn-danger btn-delete' type='button' data-id='" + searchData[i]._id + "'>Delete</button></td>"
+        html += "</tr>"
+        $("#data-table tbody").html(html);
+      }
+    }
+  }
+
+  function save(){
+    $('#control-form').submit(function(e){
+      e.preventDefault();
+      if(idedit !== "") {
+        $.ajax({
+          method: "PUT",
+          url: "http://localhost:3001/api/data/" +  idedit,
+          data: {
+            letter: $(this).serializeArray()[0].value,
+            frequency: $(this).serializeArray()[1].value
+          }
+        }).done(function(data){
+          idedit = "";
+          $('#frequency-add').val('');
+          $('#letter-add').val('');
+          drawTable();
+        })
+      } else {
+        $.ajax({
+          method: "POST",
+          url:  "http://localhost:3001/api/data/",
+          data: {
+            letter: $(this).serializeArray()[0].value,
+            frequency: $(this).serializeArray()[1].value
+          }
+        }).done(function(data){
+          idedit = "";
+          $('#frequency-add').val('');
+          $('#letter-add').val('');
+          drawTable();
+        })
+      }
+    })
+  }
+
+  function remove() {
+    $('#data-table tbody').on('click', '.btn-delete', function() {
+      $.ajax({
+        method: "DELETE",
+        url: "http://localhost:3001/api/data/" +  $(this).attr("data-id")
+      }).done(function(data) {
+        drawTable()
+      })
+    })
+  }
+
+  function edit() {
+    $('#data-table tbody').on('click', '.btn-edit', function(){
+      $.get('http://localhost:3001/api/data/' + $(this).attr("data-id"), function(data){
+        $('#control-form-div').removeAttr('hidden')
+        $('#frequency-add').val(data.data.frequency);
+        $('#letter-add').val(data.data.letter);
+        idedit = data.data._id;
+      })
+    })
+  }
+
+  function search() {
+    $('#search-form').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        method: "POST",
+        url:  "http://localhost:3001/api/data/search",
+        data: {
+          letter: $(this).serializeArray()[0].value,
+          frequency: $(this).serializeArray()[1].value
+        }
+      }).done(function(data){
+        drawTable(data);
+      })
+    })
+  }
+
+  function add() {
+    console.log("add button");
+    $('#add-button').on('click', '.btn-primary', function(){
+      $('#control-form-div').removeAttr('hidden')
+    })
+  }
+  function cancel() {
+    $('#control-form').on('click', '.btn-warning', function(){
+      $('#control-form-div').attr('hidden', 'false')
+      $('#frequency-add').val('');
+      $('#letter-add').val('');
+    })
+  }
+
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+</head>
+<body>
+<p id="data"hidden><%= chartData%></p>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+
+<script>
+window.onload = function() {
+var data = document.getElementById("data").innerHTML
+let chartData = JSON.parse(data);
+console.log(chartData);
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title: {
+		text: "DATA PIE CHART"
+	},
+	data: [{
+		type: "pie",
+		startAngle: 240,
+		indexLabel: "{label} {y}",
+		dataPoints: chartData
+	}]
+});
+chart.render();
+
+}
+</script>
+
+
+</body>
+</html>

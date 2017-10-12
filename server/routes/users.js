@@ -10,32 +10,43 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/register', function(req, res, next) {
-  if(req.body.password !== req.body.retypepassword) {
-    return res.json({success: false, message: 'Password is not the same'})
-  } else {
-    let user = new User({
-      email: req.body.email,
-      password: req.body.password,
-    });
-    let token = jwt.sign(
-      {id: user._id, username: user.email}, config.secretKey, {
-          expiresIn: 86400 });
-    user.token = token;
-    user.save(function(err, newUser) {
-      if(err) {
-        res.json({'ERROR': err})
-      } else {
-        let data = Object.assign({}, newUser._doc)
-        delete data.password
-        delete data.__v
-        delete data._id
+router.get('/:id', function(req, res){
+  User.findById(req.params.id, function(err, account){
+    if(err) {
+      console.error(err);
+    }
+    res.json(account)
+  })
+})
 
-        res.json({data})
-       console.log("ini req.body:", res.body);
-      }
-    })
-  }
+router.post('/register', function(req, res, next) {
+  User.findOne({email: req.body.email}, function(err, userAccount){
+    if(err) {
+      console.error(err);
+    }
+    if(req.body.password !== req.body.retypepassword) {
+      return res.json({success: false, message: 'Password is not the same'})
+    } else {
+      let user = new User({
+        email: req.body.email,
+        password: req.body.password,
+      });
+      let token = jwt.sign(
+        {id: user._id, username: user.email}, config.secretKey, {
+            expiresIn: 86400 });
+      user.token = token;
+      user.save(function(err, newUser) {
+        if(err) {
+          res.json({'ERROR': err})
+        } else {
+          let data = Object.assign({}, newUser._doc)
+          delete data.password
+          delete data.__v
+          res.json({data})
+        }
+      })
+    }
+  })
 });
 
 
@@ -45,7 +56,6 @@ router.post('/login', function(req, res, next) {
     let data = Object.assign({}, account._doc)
     delete data.password
     delete data.__v
-    delete data._id
     res.json({data})
   });
 });

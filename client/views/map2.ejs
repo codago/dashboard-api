@@ -1,0 +1,77 @@
+<html>
+<head>
+<style>
+#map_wrapper {
+  height: 400px;
+}
+
+#map_canvas {
+  width: 100%;
+  height: 100%;
+}
+</style>
+<title>Google Maps Multiple Markers</title>
+
+<script src="/javascripts/jquery-2.x-git.min.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+</head>
+<body>
+  <div id="map_wrapper">
+    <div id="map_canvas" class="mapping"></div>
+  </div>
+  <script type="text/javascript">
+  var markers = []
+  $(document).ready(function(){
+    drawMap()
+  })
+
+  function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+
+  function drawMap() {
+    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+      zoom: 15,
+      center: new google.maps.LatLng(-6.1753871, 106.8249587),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+    setInterval(function(){
+      $.get('http://localhost:3001/api/maps/',function(data) {
+        let locationsData = []
+        for(let x = 0; x<data.length; x++) {
+          locationsData.push([])
+          for(let prop in data[x]) {
+            if(prop === "title" || prop === "lat" || prop === "lng")
+            locationsData[x].push(data[x][prop])
+          }
+        }
+        setMapOnAll(null)
+        markers = []
+        let marker, i;
+        for (i = 0; i < locationsData.length; i++) {
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locationsData[i][1], locationsData[i][2]),
+            map: map
+          });
+
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent(locations[i][0]);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+          markers.push(marker)
+        }
+        console.log(markers);
+      });
+    }, 1000);
+  }
+
+
+  </script>
+</body>
+</html>
