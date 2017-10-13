@@ -12,6 +12,7 @@ chai.use(chaiHTTP);
 let email = 'markus'
 let password = '1234'
 let retypepassword = '1234'
+let token = ""
 
 describe('user', function(){
 
@@ -31,10 +32,32 @@ describe('user', function(){
     .send({'email': email, 'password': password})
     .end(function(err, res){
       res.body.data.email.should.equal('markus');
+      token =  res.body.token;
       done();
     })
   })
 
+    it('should token user on api/users/check POST', function(done){
+      chai.request(server)
+      .post('/api/users/check')
+      .send({'token':token})
+      .end(function(err, res){
+        res.body.valid.should.equal(true);
+        done();
+      })
+    })
+
+        it('should token user on api/users/destroy GET', function(done){
+          chai.request(server)
+          .get('/api/users/destroy')
+          .set('x-access-token', token)
+          .end(function(err, res){
+            res.body.logout.should.equal(true);
+            done();
+          })
+        })
+
+    it('test token dan delete', function(done){
 
     User.findOne({
       email: email
@@ -45,4 +68,6 @@ describe('user', function(){
         console.log("delete success");
       });
     })
+    done();
+  })
 })
