@@ -58,7 +58,6 @@ describe('user', function(){
         })
 
     it('test token dan delete', function(done){
-
     User.findOne({
       email: email
     }, function(err, user){

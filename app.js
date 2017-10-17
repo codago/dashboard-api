@@ -9,7 +9,10 @@ var mongoose = require('mongoose')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var config = require('./config')
+var data = require('./routes/data');
+var dataDate = require('./routes/dataDate');
+var maps = require('./routes/maps')
+var config = require('./config');
 
 var app = express();
 
@@ -29,7 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/api/users', users);
-
+app.use('/api/data', data);
+app.use('/api/datadate', dataDate);
+app.use('/api/maps', maps);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

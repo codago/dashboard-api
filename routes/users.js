@@ -78,4 +78,5 @@ router.get('/destroy', checker, function(req, res, next){
   return res.json({logout: true});
 })
 
+
 module.exports = router;
