@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title><%=title%></title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" media="screen" title="no title">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" media="screen" title="no title">
+<link rel="stylesheet" href="/stylesheets/home.css" media="screen" title="no title">
+<link rel="stylesheet" href="/stylesheets/data.css" media="screen" title="no title">
+
+<body>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><i class="fa fa-apple" aria-hidden="true"></i>  Content Management System</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+          <li><a href="/project"><i class="fa fa-tasks" aria-hidden="true"></i> Data</a></li>
+          <li><a href="/profile"><i class="fa fa-calendar" aria-hidden="true"></i> Data Date</a></li>
+          <li><a href="/profile"><i class="fa fa-globe" aria-hidden="true"></i> Maps</a></li>
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div  id = "addpanel" class="panel panel-default">
+      <div class="panel-body">
+        <form class="form-inline" id="data-form" method="post">
+          <label class="form-control-label" for="letter">Letter</label>&nbsp&nbsp
+          <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="letter" name="letter" placeholder="A">
+          &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          <label class="form-control-label" for="frequency">Frequency</label>&nbsp&nbsp
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <input type="text" class="form-control" id="frequency" name="frequency" placeholder="0.0000">
+          </div>
+
+          <button type="submit" class="btn btn-default">save</button>
+        </form>
+      </div>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <a type="button"class="btn btn-primary"id="addbtn"><i class="fa fa-plus" aria-hidden="true" onsubmit="onClickShow()"></i> Add</button></a>
+      </div>
+    </div>
+    <h4>Search</h4>
+    <hr>
+
+
+    <form class="form-inline search-form" id="search-form" method="post">
+      <label class="form-control-label" for="letter">Letter</label>&nbsp&nbsp
+      <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="letter" name="letter"  value=""type="submit" placeholder="A">
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      <label class="form-control-label" for="frequency">Frequency</label>&nbsp&nbsp
+      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+        <input type="text" class="form-control" id="frequency" name="frequency" type="submit" value = ""placeholder="0.0000">
+      </div>
+    </form>
+    <br>
+
+    <table id="data-table" class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Letter</th>
+          <th>Frequency</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+
+    <div id="confirm-delete" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Confirm Delete</h4>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <button id="btn-delete" type="button" class="btn btn-primary" data-id="">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script></body>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="javascripts/login.js"></script>
+  <script type="text/javascript" src="javascripts/data.js"></script>
+
+
+</body>
+</html>

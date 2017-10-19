@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title><%=title%></title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" media="screen" title="no title">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" media="screen" title="no title">
+<link rel="stylesheet" href="/stylesheets/home.css" media="screen" title="no title">
+<body>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><i class="fa fa-apple" aria-hidden="true"></i>  Content Management System</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+          <li><a href="/data"><i class="fa fa-tasks" aria-hidden="true"></i> Data</a></li>
+          <li><a href="/datadate"><i class="fa fa-calendar" aria-hidden="true"></i> Data Date</a></li>
+          <li><a href="/maps"><i class="fa fa-globe" aria-hidden="true"></i> Maps</a></li>
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+        <h1>Welcome, <%=user%></h1>
+    </div>
+  </div>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script></body>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="javascripts/login.js"></script>
+
+</body>
+</html>
