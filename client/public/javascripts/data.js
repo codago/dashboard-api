@@ -7,7 +7,7 @@ $(document).ready(function(){
   edit()
   search()
   isNumber()
-isLetter()
+  isLetter()
 })
 
 function onClickClose(){
