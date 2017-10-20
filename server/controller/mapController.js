@@ -4,12 +4,11 @@ const config = require('../config')
 
 module.exports = {
   search:function(req,res){
-    let title = req.body.title
-
-    Map.find({title:new RegExp(title,'i')},function(err,data){
+    let title = req.body.title.toLowerCase()
+    Map.find({$where:`/${title}.*/.test(this.title.toLowerCase())`},function(err,data){
       console.log(data);
       if(err)res.json({error:err})
-      else res.json({data:data})
+      else res.json(data)
     })
   },
   read:function(req,res){
@@ -22,7 +21,7 @@ module.exports = {
     Map.findById(req.params.id,function(err,map) {
       if(err)res.json({'Error':err})
       else{
-        map.title = req.body.letter
+        map.title = req.body.title
         map.lat = Number(req.body.latitude)
         map.lng = Number(req.body.longitude)
         map.save(function(err){

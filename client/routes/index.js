@@ -10,15 +10,15 @@ module.exports = function(passport){
   router.get('/line', usercontroller.linepage)
 
   router.get('/pie', usercontroller.piepage)
-
   router.get('/bar',usercontroller.barpage)
-
   router.get('/map', usercontroller.mappage)
 
   router.get('/login',usercontroller.isToken,usercontroller.loginpage)
   router.get('/logout',usercontroller.logout)
   router.get('/home',isLoggedIn,usercontroller.homepage)
   router.get('/data',isLoggedIn,usercontroller.datapage)
+  router.get('/datadate',isLoggedIn,usercontroller.datadatepage)
+  router.get('/maps',isLoggedIn,usercontroller.mapspage)
 
   router.post('/signup',passport.authenticate('local-signup',{
     successRedirect:'/home',

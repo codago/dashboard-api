@@ -49,6 +49,16 @@ module.exports = {
       title:"Content Management System"
     })
   },
+  datadatepage:function(req,res){
+    res.render('user/datadate',{
+      title:"Content Management System"
+    })
+  },
+  mapspage:function(req,res){
+    res.render('user/maps',{
+      title:"Content Management System"
+    })
+  },
   logout:function(req,res){
     req.logout()
     res.redirect('/')

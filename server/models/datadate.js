@@ -6,7 +6,7 @@ var SchemaTypes = mongoose.Schema.Types;
 
 const datadateSchema = new mongoose.Schema({
   letter:{
-    type:Date
+    type:String
   },
   frequency:{
     type:SchemaTypes.Double

@@ -1,10 +1,10 @@
 
-
 $.get("http://localhost:3001/api/data",function(data){
+  console.log(data);
   InitChart(data);
 })
-function InitChart(barData) {
 
+function InitChart(barData) {
   var vis = d3.select('#visualisation'),
     WIDTH = 1000,
     HEIGHT = 500,

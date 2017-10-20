@@ -18,6 +18,7 @@
     "express": "~4.14.1",
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.1.0",
+    "moment": "^2.19.1",
     "mongodb": "^2.2.33",
     "mongoose": "^4.12.2",
     "mongoose-double": "0.0.1",

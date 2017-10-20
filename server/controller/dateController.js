@@ -2,6 +2,7 @@ const Datadate = require('../models/datadate')
 const datadates = require('../seeder/data.json')
 const config = require('../config')
 
+
 module.exports = {
   seedData:function(req,res){
     for(datadate of datadates){
@@ -15,20 +16,17 @@ module.exports = {
     let frequency = Number(req.body.frequency)
 
     if(letter && frequency){
-      Datadate.find({$and:[{letter:letter},{$where:`/${frequency}.*/.test(this.frequency)`}]},function(err,data){
-        console.log(data);
+      Datadate.find({$and:[{$where:`/${letter}.*/.test(this.letter)`},{$where:`/${frequency}.*/.test(this.frequency)`}]},function(err,data){
         if(err)res.json({error:err})
-        else res.json({data:data})
+        else res.json(data)
       })
     }else if(letter){
-      Datadate.find({letter:letter},function(err,data){
-        console.log(data);
+      Datadate.find({$where:`/${letter}.*/.test(this.letter)`},function(err,data){
         if(err)res.json({error:err})
         else res.json(data)
       })
     }else if(frequency){
       Datadate.find({$where:`/${frequency}.*/.test(this.frequency)`},function(err,data){
-        console.log(data);
         if(err)res.json({error:err})
         else res.json(data)
       })
